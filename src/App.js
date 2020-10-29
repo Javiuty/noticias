@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Formulario from "./components/Formulario";
 import Header from "./components/Header";
 import { API_KEY } from "./components/Key";
+import ListadoNoticias from "./components/ListadoNoticias";
 
 const App = () => {
   // definir la categoria y noticias
@@ -10,12 +11,12 @@ const App = () => {
 
   useEffect(() => {
     const consultarAPI = async () => {
-      const url = `http://newsapi.org/v2/top-headlines?country=gb&category=${categoria}&apiKey=${API_KEY}`;
+      const url = `http://newsapi.org/v2/top-headlines?country=mx&category=${categoria}&apiKey=${API_KEY}`;
 
       const respuesta = await fetch(url);
       const noticias = await respuesta.json();
 
-      console.log(noticias);
+      guardarNoticias(noticias.articles);
     };
     consultarAPI();
   }, [categoria]);
@@ -26,6 +27,7 @@ const App = () => {
 
       <div className="container-white">
         <Formulario guardarCategoria={guardarCategoria} />
+        <ListadoNoticias noticias={noticias} />
       </div>
     </>
   );
